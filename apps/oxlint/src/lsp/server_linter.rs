@@ -388,10 +388,6 @@ pub struct ServerLinter {
 }
 
 impl Tool for ServerLinter {
-    fn name(&self) -> &'static str {
-        "linter"
-    }
-
     /// # Panics
     /// Panics if the root URI cannot be converted to a file path.
     fn handle_configuration_change(
@@ -457,7 +453,7 @@ impl Tool for ServerLinter {
             Some("") | None => {
                 // Watch both JSON/JSONC and TS config files
                 #[cfg(feature = "napi")]
-                if crate::is_vite_plus_mode() {
+                if crate::vp_version().is_some() {
                     vec!["**/vite.config.ts".to_string()]
                 } else {
                     vec![
